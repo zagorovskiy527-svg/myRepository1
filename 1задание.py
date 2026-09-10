@@ -35,24 +35,43 @@ with open('input.txt', encoding='utf-8') as file:
             continue
         planets.append(parse_planet(line))
 
-def in_figure(planet, x_min, y_min, x_max, y_max):
-    if planet.x < x_min or planet.x > x_max:
-        return False
-    if planet.y < y_min or planet.y > y_max:
-        return False
-    return True
+# def in_figure(planet, x_min, y_min, x_max, y_max):
+#     if planet.x  < x_min or planet.x > x_max:
+#         return False
+#     if planet.y < y_min or planet.y > y_max:
+#         return False
+#     return True
 
 def planets_in_figure(planets, x_min, y_min, x_max, y_max):
     result = []
     for planet in planets:
-        if in_figure(planet, x_min, y_min, x_max, y_max):
+        if in_figure1(planet, x_min, y_min, x_max, y_max):
             result.append(planet)
     return result
 
 x_min, y_min = 0.0, 0.0
 x_max, y_max = 50.0, 30.0
 
+
+def in_figure1(planet, x_min, y_min, x_max, y_max):
+    p_left   = planet.x - planet.radius 
+    p_right  = planet.x + planet.radius 
+    p_bottom = planet.y - planet.radius 
+    p_top    = planet.y + planet.radius
+
+    if p_right < x_min:
+        return False
+    if p_left > x_max:
+        return False
+    if p_top < y_min:
+        return False
+    if p_bottom > y_max:
+        return False
+
+    return True
+
 found = planets_in_figure(planets, x_min, y_min, x_max, y_max)
+
 
 print(f"Область: ({x_min}, {y_min}) — ({x_max}, {y_max})")
 print(f"Найдено планет: {len(found)}")
