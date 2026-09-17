@@ -43,11 +43,11 @@ def parse_line(text):
 
     obj_type = obj_type.lower()
 
-    if obj_type == "planet":
+    if obj_type == "планета":
         return parse_planet(body)
-    elif obj_type == "moon":
+    elif obj_type == "луна":
         return parse_moon(body)
-    elif obj_type == "crater":
+    elif obj_type == "кратер":
         return parse_crater(body)
     else:
         raise ValueError(f"Неизвестный тип объекта: {obj_type}")
