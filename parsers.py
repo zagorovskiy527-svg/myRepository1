@@ -29,9 +29,9 @@ def parse_crater(text):
 
 
 PARSERS = {
-    "planet": parse_planet,
-    "moon": parse_moon,
-    "crater": parse_crater,
+    "планета": parse_planet,
+    "луна": parse_moon,
+    "кратер": parse_crater,
 }
 
 

@@ -1,70 +1,43 @@
+from models import Planet, Moon, Crater
+from parsers import parse_file
+from processing import (
+    find_planets_in_area,
+    filter_by_type,
+    find_craters_by_planet,
+)
 
 
+def main():
+    objects = parse_file("input.txt", encoding="utf-8")
 
-def parse_planet(text):
-    start = text.find('"')
-    end = text.find('"', start + 1)
-    name = text[start + 1:end]
-    
-    rest = text[:start] + text[end + 1:]
-    parts = rest.split()
-    
-    date = parts[1]
-    radius = float(parts[2])
-    x = float(parts[3])     
-    y = float(parts[4])    
-    
-    return Planet(name, date, radius, x, y)
+    planets = filter_by_type(objects, Planet)
+    moons = filter_by_type(objects, Moon)
+    craters = filter_by_type(objects, Crater)
 
+    print(f"Всего объектов: {len(objects)}")
+    print(f"Планет: {len(planets)}, спутников: {len(moons)}, кратеров: {len(craters)}")
+    print("-" * 60)
 
-planets = []
-with open('input.txt', encoding='utf-8') as file:
-    for line in file:
-        line = line.strip()
-        if not line:
-            continue
-        planets.append(parse_planet(line))
+    x_min, y_min = 0.0, 0.0
+    x_max, y_max = 50.0, 30.0
+    found = find_planets_in_area(planets, x_min, y_min, x_max, y_max)
 
-# def in_figure(planet, x_min, y_min, x_max, y_max):
-#     if planet.x  < x_min or planet.x > x_max:
-#         return False
-#     if planet.y < y_min or planet.y > y_max:
-#         return False
-#     return True
+    print(f"Область: ({x_min}, {y_min}) — ({x_max}, {y_max})")
+    print(f"Планет в области: {len(found)}")
+    for p in found:
+        print(p)
+    print("-" * 60)
 
-def planets_in_figure(planets, x_min, y_min, x_max, y_max):
-    result = []
-    for planet in planets:
-        if in_figure1(planet, x_min, y_min, x_max, y_max):
-            result.append(planet)
-    return result
+    mars_craters = find_craters_by_planet(craters, "Марс")
+    print(f"Кратеров на Марсе: {len(mars_craters)}")
+    for c in mars_craters:
+        print(c)
+    print("-" * 60)
 
-x_min, y_min = 0.0, 0.0
-x_max, y_max = 50.0, 30.0
+    print("Все объекты:")
+    for obj in objects:
+        print(obj)
 
 
-def in_figure1(planet, x_min, y_min, x_max, y_max):
-    p_left   = planet.x - planet.radius 
-    p_right  = planet.x + planet.radius 
-    p_bottom = planet.y - planet.radius 
-    p_top    = planet.y + planet.radius
-
-    if p_right < x_min:
-        return False
-    if p_left > x_max:
-        return False
-    if p_top < y_min:
-        return False
-    if p_bottom > y_max:
-        return False
-
-    return True
-
-found = planets_in_figure(planets, x_min, y_min, x_max, y_max)
-
-
-print(f"Область: ({x_min}, {y_min}) — ({x_max}, {y_max})")
-print(f"Найдено планет: {len(found)}")
-print(f'Всего планет: {len(planets)}')
-for p in found:
-    print(p)
+if __name__ == "__main__":
+    main()
