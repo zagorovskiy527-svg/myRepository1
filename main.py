@@ -1,4 +1,4 @@
-from models import Planet, Moon, Crater
+from models import Planet, Moon, Crater, SpaceObjects
 from parsers import parse_file
 from processing import (
     find_planets_in_area,

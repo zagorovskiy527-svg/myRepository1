@@ -1,7 +1,7 @@
 class SpaceObjects:
     def __init__ (self, name, date):
         self.name = name
-        self.data = date
+        self.date = date
 
     def str (self):
         return f"{self.__class__.__name__}: {self.name}, дата {self.date}"
@@ -25,7 +25,7 @@ class Moon(SpaceObjects):
         self.planet_name = planet_name
         self.distance = distance
 
-    def str(self):
+    def __str__(self):
         return (f"Спутник: {self.name}, дата открытия: {self.date}, "
                 f"планета: {self.planet_name}, расстояние: {self.distance}")
 
