@@ -36,11 +36,21 @@ PARSERS = {
 
 
 def parse_line(text):
-    obj_type, _, body = text.partition(" ")
-    parser = PARSERS.get(obj_type.lower())
-    if parser is None:
+    parts = text.split(" ", 1)
+
+    obj_type = parts[0]
+    body = parts[1]
+
+    obj_type = obj_type.lower()
+
+    if obj_type == "planet":
+        return parse_planet(body)
+    elif obj_type == "moon":
+        return parse_moon(body)
+    elif obj_type == "crater":
+        return parse_crater(body)
+    else:
         raise ValueError(f"Неизвестный тип объекта: {obj_type}")
-    return parser(body)
 
 
 def parse_file(filename, encoding="utf-8"):
