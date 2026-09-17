@@ -7,37 +7,54 @@ from processing import (
 )
 
 
+def show_menu():
+    print("1. Добавить планету")
+    print("2. Вывести список планет")
+    print("3 - Закрыть")
+
+def input_planet():
+    name = input("Название планеты: ").strip()
+    date = input("Дата открытия: ").strip()
+    radius = float(input("Радиус: "))
+    x = float(input("Координата x: "))
+    y = float(input("Координата y: "))
+    return Planet(name, date, radius, x, y)
+
+def print_planets(planets):
+    if not planets:
+        print("Список планет пуст.")
+        return
+    print(f"Всего планет: {len(planets)}")
+    i = 1
+    for planet in planets:
+        print(f"{i}. {planet}")
+        i = i + 1
+
+
+
+
 def main():
-    objects = parse_file("input.txt", encoding="utf-8")
+    planets = []
 
-    planets = filter_by_type(objects, Planet)
-    moons = filter_by_type(objects, Moon)
-    craters = filter_by_type(objects, Crater)
+    while True:
+        show_menu()
+        choice = input("Выберите пункт: ").strip()
 
-    print(f"Всего объектов: {len(objects)}")
-    print(f"Планет: {len(planets)}, спутников: {len(moons)}, кратеров: {len(craters)}")
-    print("-" * 60)
+        if choice == "1":
+            planet = input_planet() 
+            planets.append(planet)
+            print(f"Планета '{planet.name}' добавлена.")
 
-    x_min, y_min = 0.0, 0.0
-    x_max, y_max = 50.0, 30.0
-    found = find_planets_in_area(planets, x_min, y_min, x_max, y_max)
+        elif choice == "2":
+            print_planets(planets)
 
-    print(f"Область: ({x_min}, {y_min}) — ({x_max}, {y_max})")
-    print(f"Планет в области: {len(found)}")
-    for p in found:
-        print(p)
-    print("-" * 60)
+        elif choice == "3":
+            print("Выход.")
+            break
 
-    mars_craters = find_craters_by_planet(craters, "Марс")
-    print(f"Кратеров на Марсе: {len(mars_craters)}")
-    for c in mars_craters:
-        print(c)
-    print("-" * 60)
-
-    print("Все объекты:")
-    for obj in objects:
-        print(obj)
-
+        else:
+            print("Неверный пункт. Попробуйте снова.")
+            
 
 if __name__ == "__main__":
     main()
