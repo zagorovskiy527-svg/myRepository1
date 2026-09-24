@@ -1,5 +1,3 @@
-# Главный модуль программы.
-
 from datetime import datetime
 
 from models import Planet
