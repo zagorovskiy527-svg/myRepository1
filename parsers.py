@@ -11,9 +11,13 @@ class Parser:
     def __init__(self):
         self.parsers = {
             "planet": self.parse_planet,
+            "планета": self.parse_planet,
             "moon": self.parse_moon,
+            "луна": self.parse_moon,
+            "спутник": self.parse_moon,
             "crater": self.parse_crater,
-        }
+            "кратер": self.parse_crater,
+}
 
     def extract_quoted(self, text):
         start = text.find('"')

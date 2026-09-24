@@ -1,5 +1,6 @@
-from datetime import datetime
+import os
 
+from datetime import datetime
 from models import Planet
 from parsers import parse_file
 from processing import filter_by_type
@@ -111,13 +112,15 @@ def main():
 
     planets = filter_by_type(objects, Planet)
 
-    added_objects, added_errors = parse_file(PLANETS_FILE, encoding="utf-8")
-    if added_errors:
-        print("Ошибки при чтении planets.txt:")
-        for e in added_errors:
-            print(f"  - {e}")
-
-    added_planets = filter_by_type(added_objects, Planet)
+    if os.path.exists(PLANETS_FILE):
+        added_objects, added_errors = parse_file(PLANETS_FILE, encoding="utf-8")
+        if added_errors:
+            print("Ошибки при чтении planets.txt:")
+            for e in added_errors:
+                print(f"  - {e}")
+        added_planets = filter_by_type(added_objects, Planet)
+    else:
+            added_planets = []
 
     while True:
         show_menu()
