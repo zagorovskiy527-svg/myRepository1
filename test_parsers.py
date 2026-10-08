@@ -41,7 +41,6 @@ class TestParserCorrect(unittest.TestCase):
         self.assertEqual(c.depth, 3.2)
 
     def test_case_insensitive_prefix(self):
-        # 'ПЛАНЕТА' и 'планета' должны работать одинаково.
         p = self.parser.parse_line(
             'ПЛАНЕТА Земля "Земля" 2024.01.15 4.0 10.0 10.0')
         self.assertIsInstance(p, Planet)
